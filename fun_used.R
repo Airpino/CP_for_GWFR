@@ -1,16 +1,6 @@
 library(readr)
 library(fda)
-#library(cluster)
-#library(vows)
-#library(clusterSim)
-#library(fossil)
-#library(geofd)
-#library(geoR)
-#library(MASS)
 library(Rlinsolve)
-#library(rworldmap)
-#library(mapIT) 
-#library(emulator)
 
 index_band3=function(stb, rk, Yb, cp, c)
 {
