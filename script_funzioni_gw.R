@@ -6,18 +6,18 @@
 ## fl := a flag, 1 to include b0 and 0 to not include
 ### return
 ## Z := return the matrix Z
-zeta=function(X, J, fl){
-  n=nrow(X[[1]])
-  l=length(X)
+zeta <- function(X, J, fl){
+  n <- nrow(X[[1]])
+  l <- length(X)
   if(fl){
-    Z=matrix(1, nrow = n, 1)
+    Z <- matrix(1, nrow = n, 1)
     for (i in 1:l) {
-      Z=cbind(Z, X[[i]]%*%J[[i]])
+      Z <- cbind(Z, X[[i]]%*%J[[i]])
     }
   } else{
-    Z=X[[1]]%*%J[[1]]
+    Z <- X[[1]]%*%J[[1]]
     for (i in 2:l) {
-      Z=cbind(Z, X[[i]]%*%J[[i]])
+      Z <- cbind(Z, X[[i]]%*%J[[i]])
     }
   }
   return(Z)
@@ -30,7 +30,7 @@ zeta=function(X, J, fl){
 ### return 
 ## beta :=  la matrice dei beta
 ## hat_riga := il vettore riga della matrice hat
-Bs=function(Z, Y, w){
+Bs <- function(Z, Y, w){
   A<-tryCatch(
     {
       solve(t(Z)%*%(w*Z))
@@ -38,8 +38,8 @@ Bs=function(Z, Y, w){
     error=function(cond) {
       ginv(t(Z)%*%(w*Z))
     })
-  C=(A%*%t(Z)*w)
-  B=C%*%Y
+  C <- (A%*%t(Z)*w)
+  B <- C%*%Y
   return(list(beta=B, hat_riga=C))
 }
 ##########----- funzione gwr --------####################
@@ -58,26 +58,26 @@ Bs=function(Z, Y, w){
 ## hat_Matrix := the hat matrix
 ## residuo := il residuo del modello
 ## Yh := the Y estimeted
-wr=function(X, Y, J, Jy, DMAT, kernel="Gaus", h=list(h=1), fl){
-  n=nrow(Y)
-  Z=zeta(X, J, fl)
-  beta=list()
-  Hat_Matrix=matrix(0, n, n)
+wr <- function(X, Y, J, Jy, DMAT, kernel="Gaus", h=list(h=1), fl){
+  n <- nrow(Y)
+  Z <- zeta(X, J, fl)
+  beta <- list()
+  Hat_Matrix <- matrix(0, n, n)
   for (i in 1:n){
-    wi=peso(DMAT, i, kernel, h)
-    buff=Bs(Z, Y, wi)
-    beta[[i]]=buff$beta
-    Hat_Matrix[i,]=Z[i,]%*%buff$hat_riga
+    wi <- peso(DMAT, i, kernel, h)
+    buff <- Bs(Z, Y, wi)
+    beta[[i]] <- buff$beta
+    Hat_Matrix[i,] <- Z[i,]%*%buff$hat_riga
   }
-  Yh=Hat_Matrix%*%Y
-  yb=Y-Yh 
-  r=sqrt(sum((yb%*%Jy)*yb))
+  Yh <- Hat_Matrix%*%Y
+  yb <- Y-Yh 
+  r <- sqrt(sum((yb%*%Jy)*yb))
   return(list(beta=beta, Hat_Matrix=Hat_Matrix, residuo=r, Yh=Yh))
 }
 
-wr1=function(i, Zs, Ys, Ds, kernel = "Gaus", h=list(h=1)){
-  wi=peso(Ds, i, kernel, list(h=a$the_best_h))
-  buff=Bs(Zs, Ys, wi)
-  y=Zs[i,]%*%buff$beta
+wr1 <- function(i, Zs, Ys, Ds, kernel = "Gaus", h=list(h=1)){
+  wi <- peso(Ds, i, kernel, list(h=a$the_best_h))
+  buff <- Bs(Zs, Ys, wi)
+  y <- Zs[i,]%*%buff$beta
   return(list(yihat=y, betai=buff$beta))
 }

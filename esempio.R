@@ -31,7 +31,7 @@ Jy=buff$Jy
 DMAT=as.matrix(dist(coord))
 fl=1
 #####----- cross validation h -----#####
-a=cvh(X, Y, J, Jy, DMAT, kernel="Gaus", fl)
+a <- cvh(X, Y, J, Jy, DMAT, kernel="Gaus", fl,h=c(1:30))
 
 #####----- per avere solo una stima -----#####
 Z=zeta(X, J, fl)
